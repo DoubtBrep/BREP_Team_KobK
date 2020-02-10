@@ -541,7 +541,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     //Note: For de-equiping on left hand to work properly. there must always be an empty weapon slot on the left hand that is never used. 
     bool EquipToLeft(WeaponController weaponPrefab)
     {
-        print("Equip to Left");
+        //print("Equip to Left");
         //get left hand
         int leftIndex = 0;
         PlayerWeaponsManager[] hands = m_PlayerCharacterController.GetComponents<PlayerWeaponsManager>(); ;
@@ -552,7 +552,7 @@ public class PlayerWeaponsManager : MonoBehaviour
         int weaponIndex = hands[leftIndex].GetIndexOfWeaponFromName(weaponPrefab);
         if (weaponIndex != -1)
         {
-            print(weaponPrefab.weaponName + " found at slot " + weaponIndex);
+            //print(weaponPrefab.weaponName + " found at slot " + weaponIndex);
             hands[leftIndex].SwitchToWeaponIndexLeft(weaponIndex);
 
         }
@@ -561,7 +561,7 @@ public class PlayerWeaponsManager : MonoBehaviour
 
     public void SwitchToWeaponIndexLeft(int newWeaponIndex, bool force = false) //oriignal SwitchToWeaponIndex. Now only used when switching to a left hand dual wield. 
     {
-        print("SwitchToWeaponIndexLeft");
+        //print("SwitchToWeaponIndexLeft");
         if (force || (newWeaponIndex != activeWeaponIndex && newWeaponIndex >= 0))
         {
             // Store data related to weapon switching animation

@@ -74,7 +74,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     public UnityAction<WeaponController, int> onAddedWeapon;
     public UnityAction<WeaponController, int> onRemovedWeapon;
 
-    WeaponController[] m_WeaponSlots = new WeaponController[9]; // 9 available weapon slots
+    public WeaponController[] m_WeaponSlots = new WeaponController[9]; // 9 available weapon slots
     PlayerInputHandler m_InputHandler;
     PlayerCharacterController m_PlayerCharacterController;
     float m_WeaponBobFactor;
@@ -108,6 +108,9 @@ public class PlayerWeaponsManager : MonoBehaviour
             AddWeapon(weapon);
         }
         SwitchWeapon(true);
+
+        //Persist character accross loads
+        DontDestroyOnLoad(this.transform.gameObject.transform.parent);
     }
 
     private void Update()
@@ -476,6 +479,7 @@ public class PlayerWeaponsManager : MonoBehaviour
 
     public WeaponController GetActiveWeapon()
     {
+        //print("Get Weapon at slot index returning" + activeWeaponIndex);
         return GetWeaponAtSlotIndex(activeWeaponIndex);
     }
 
@@ -523,7 +527,7 @@ public class PlayerWeaponsManager : MonoBehaviour
         }
     }
 
-    int GetIndexOfWeaponFromName(WeaponController weaponPrefab)
+    public int GetIndexOfWeaponFromName(WeaponController weaponPrefab)
     {
         int index = 9;
         for (int i = 0; i < m_WeaponSlots.Length; i++) //hand does have the weapon. find it and return the index value
@@ -539,7 +543,7 @@ public class PlayerWeaponsManager : MonoBehaviour
 
 
     //Note: For de-equiping on left hand to work properly. there must always be an empty weapon slot on the left hand that is never used. 
-    bool EquipToLeft(WeaponController weaponPrefab)
+    public bool EquipToLeft(WeaponController weaponPrefab)
     {
         print("Equip to Left");
         //get left hand
@@ -550,12 +554,13 @@ public class PlayerWeaponsManager : MonoBehaviour
         else leftIndex = 1;
 
         int weaponIndex = hands[leftIndex].GetIndexOfWeaponFromName(weaponPrefab);
-        if (weaponIndex != -1)
-        {
-            //print(weaponPrefab.weaponName + " found at slot " + weaponIndex);
+        print("Equip to left WeaponIndex=" + weaponIndex);
+        //if (weaponIndex != -1)
+        //{
+            print(weaponPrefab.weaponName + " found at slot " + weaponIndex);
             hands[leftIndex].SwitchToWeaponIndexLeft(weaponIndex);
 
-        }
+        //}
         return true;
     }
 
@@ -592,4 +597,10 @@ public class PlayerWeaponsManager : MonoBehaviour
         }
 
     }
+
+    public int GetActiveWeaponIndex()
+    {
+        return activeWeaponIndex;
+    }
+
 }

@@ -97,6 +97,16 @@ public class WeaponPickup : MonoBehaviour
                 if (playerWeaponsManager[0].AddWeapon(weaponPrefab)) //check Left hand, if left hand does not have weapon, equip it and break. 
                 {
                     m_Pickup.PlayPickupFeedback();
+                    // Handle auto-switching to weapon if no weapons currently
+
+                    // if (playerWeaponsManager[0].GetActiveWeapon() == null)
+                    print(playerWeaponsManager[0].GetActiveWeaponIndex());
+                    if (playerWeaponsManager[0].GetActiveWeaponIndex() == 9|| playerWeaponsManager[0].GetActiveWeaponIndex() == -1)
+                    {
+                        print("No weapon on left");
+                        //playerWeaponsManager[0].SwitchToWeaponIndexLeft(playerWeaponsManager[0].GetIndexOfWeaponFromName(weaponPrefab));
+                        playerWeaponsManager[0].EquipToLeft(weaponPrefab);
+                    }
                     break;
                 }
                 leftProcessed = true;
@@ -107,10 +117,19 @@ public class WeaponPickup : MonoBehaviour
             if (playerWeaponsManager[1].AddWeapon(weaponPrefab)) //check hand, if hand does not have weapon, equip it and break. 
             {
                 m_Pickup.PlayPickupFeedback();
-                break;
+                //break;
             }
             if (playerWeaponsManager[1].hand == PlayerWeaponsManager.Hand.Left)
             {
+                // Handle auto-switching to weapon if no weapons currently
+                // if (playerWeaponsManager[1].GetActiveWeapon() == null)
+                print(playerWeaponsManager[1].GetActiveWeaponIndex());
+                if (playerWeaponsManager[1].GetActiveWeaponIndex()==9|| playerWeaponsManager[1].GetActiveWeaponIndex() == -1)
+                {
+                    print("No weapon on left");
+                    playerWeaponsManager[1].EquipToLeft(weaponPrefab);
+                    //playerWeaponsManager[1].SwitchToWeaponIndexLeft(playerWeaponsManager[1].GetIndexOfWeaponFromName(weaponPrefab));
+                }
                 leftProcessed = true;
             }
             else rightProcessed = true;
